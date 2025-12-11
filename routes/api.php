@@ -1,15 +1,21 @@
 <?php
-
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Auth\ProfileController;
-use App\Http\Controllers\Api\Hotel\HotelController;
+
 use App\Http\Controllers\Api\Booking\BookingController;
 use App\Http\Controllers\Api\Coupons\CouponsController;
-use App\Http\Controllers\Api\Review\ReviewController;
-use App\Http\Controllers\Api\Term\TermController;
-use App\Http\Controllers\Api\Hotel\HotelRoomController;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
+
+use App\Http\Controllers\ChatController;
+
+
+
+
+Route::post('/create_chat', [ChatController::class, 'startConversation']);
+Route::post('/send_message', [ChatController::class, 'sendMessage']);
 
 
 Route::fallback(function () {
@@ -23,7 +29,7 @@ Route::get('session-token', [AuthController::class, 'sessionToken']);
 Route::middleware(['session.token'])->group(function () {
 
     Route::post('send-otp', [AuthController::class, 'sendOtp']);
-    Route::post('/admin-login', [AuthController::class, 'admin_login']);
+    Route::post('/login', [AuthController::class, 'admin_login']);
     Route::post('verify-otp', [AuthController::class, 'verifyOtp']);
 
     Route::get('dashboard', [HotelController::class, 'dashboard']);

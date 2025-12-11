@@ -175,33 +175,20 @@ class AuthController extends Controller
     }
 
 
-   public function admin_login(Request $request)
-{
-    // Validate input
-    $request->validate([
-        'email' => 'required|email',
-    ]);
+  public function login(Request $request) {
+    $user = User::where('email', $request->email)->first();
 
-    // Get admin user
-    $user = User::where('email', $request->email)
-                ->where('role_id', 1)
-                ->first();
-
-    if (!$user) {
-        return response()->json(['error' => 'Unauthorized'], 401);
+    if (! $user || ! Hash::check($request->password, $user->password)) {
+        return response()->json(['message' => 'Invalid credentials'], 401);
     }
 
-    // Log the user in (without password)
-    Auth::login($user);
-
-    // Generate JWT token
-    $token = JWTAuth::fromUser($user);
+    $token = $user->createToken('mobile')->plainTextToken;
 
     return response()->json([
-        'message' => 'Admin login successful',
-        'token'   => $token,
-        'user'    => $user
+        'token' => $token,
+        'user' => $user
     ]);
 }
+
 
 }

@@ -20,11 +20,86 @@ use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\ReviewController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SettingsController;
-use App\Http\Controllers\Admin\SliderController;
-use App\Http\Controllers\Admin\TermController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Api\Booking\BookingController;
 use Illuminate\Support\Facades\Route;
+
+use App\Http\Controllers\ChatController;
+
+
+Route::get('/test-broadcast', function () {
+    broadcast(new \App\Events\TestEvent("Hello WebSocket!"));
+    return "Event Sent!";
+});
+Route::post('/send-message', [ChatController::class, 'send']);
+Route::get('/chat', function () {
+    return view('chat');
+});
+
+
+;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Route::get('', function () {
     if (session()->has('id')) {
@@ -33,6 +108,8 @@ Route::get('', function () {
         return redirect('/admin/login');
     }
 });
+
+
 
 // Route::get('/', [App\Http\Controllers\Auth\LoginController::class, 'index']);
 Route::get('/admin', [LoginController::class, 'index']);
